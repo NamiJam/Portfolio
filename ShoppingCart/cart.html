@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .container{
+  background-color: aliceblue;
+  width: 790px;
+  margin: 20px;
+  margin-left: 135px;
+  border-radius: 10px;
+  
+}
+body{
+  background-color: rgb(194, 193, 193);
+  display: flex;
+  flex-wrap: nowrap;
+}
+.flex-container{
+  display: grid;
+  grid-template-columns: 240px 240px 240px;
+  gap: 10px;
+}
+.product-container{
+  background-color: rgb(146, 144, 144);
+  color: white;
+  margin: 20px;
+  margin-left: 30px;
+  width: 220px;
+  border-radius: 10px;
+}
+.content{
+  text-align: center;
+}
+button{
+  margin-bottom: 10px;
+  background-color: rgb(78, 78, 78);
+  border: none;
+  padding: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  border-radius: 5px;
+  color: white;
+}
+img{
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 220px;
+  height: 180px;
+}
+h1{
+  padding-top: 10px;
+  padding-left: 10px;
+}
+.cart-container {
+  background-color: aliceblue;
+  width: 400px;
+  margin: 20px;
+  border-radius: 10px;
+  position: relative; 
+}
+
+.cart {
+  padding: 10px; 
+  padding-bottom: 50px; 
+}
+
+.totals {
+  position: absolute;
+  bottom: 0; 
+  left: 0; 
+  width: 95%; 
+  background-color: aliceblue; 
+  padding: 10px;
+}
+
+.totals button{
+  margin: 15px;
+  
+}
+.cart{
+  padding: 5px;
+}
+.total-box {
+  padding: 20px;
+  padding-bottom: 5px;
+  top: 500%;
+}
+
+.quantity-controls button {
+  padding: 5px 10px;
+}
+
+    </style>
+<body>
+    <div class="container">
+    <h1>Shopping Cart App</h1>
+    <div class="flex-container">
+        
+        <div class="product-container">
+            <img src="images/mouse.jpg" alt="">
+            <div class="content">
+            <h2>Mouse</h2>
+            <p>&#8369; 339.00</p>
+            <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-container">
+            <img src="images/keyboard.jfif" alt="">
+            <div class="content">
+            <h2>Keyboard</h2>
+            <p>&#8369; 760.00</p>
+            <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-container">
+            <img src="images/monitor.jfif" alt="">
+            <div class="content">
+            <h2>Monitor</h2>
+            <p>&#8369; 2,028.00</p>
+            <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-container">
+            <img src="images/mousePad.jfif" alt="">
+            <div class="content">
+            <h2>Mouse Pad</h2>
+            <p>&#8369; 87.00</p>
+            <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-container">
+            <img src="images/printer.jfif" alt="">
+            <div class="content">
+            <h2>Printer</h2>
+            <p>&#8369; 2,495.00</p>
+            <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-container">
+            <img src="images/laptop.jfif" alt="">
+            <div class="content" id="item">
+            <h2>Laptop</h2>
+            <p>&#8369; 40,999.00</p>
+            <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="cart-container">
+      <h1>Cart</h1>
+      <div class="add-container">
+
+      </div>
+
+      <div class="cart">
+        <div class="item">
+          
+        </div>
+
+        <div class="totals">
+          <div class="total-box">
+          <div class="tot subtotal">
+            Subtotal: <span class="subtotal-value">$10.00</span>
+            <hr>
+          </div>
+          <div class="tot tax">
+            Tax(12%): <span class="tax-value">$1.00</span>
+            <hr>
+          </div>
+          <div class="tot total">
+            Total: <span class="total-value">$11.00</span>
+          </div>
+          </div>
+          <button class="clear-button" style="background-color: brown;">Clear All</button>
+          
+          <button class="checkout-button">Checkout</button>
+          
+        </div>
+      </div>
+    </div>
+    <script>
+        let cartItems = [];
+
+function addToCart(item) {
+    let existingItem = cartItems.find(cartItem => cartItem.name === item.name);
+
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        item.quantity = 1;
+        cartItems.push(item);
+    }
+
+    updateCart();
+}
+
+function updateCart() {
+        let cartContainer = document.querySelector('.add-container');
+        cartContainer.innerHTML = '';
+
+        let subTotal = 0;
+
+        cartItems.forEach(item => {
+            let div = document.createElement('div');
+            let totalPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity;
+            subTotal += totalPrice;
+            div.innerHTML = `
+                <div style="background-color: rgb(146, 144, 144); padding: 5px; margin: 10px; color:white;">
+                    <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px;">
+                    <span>${item.name} - Quantity: <button class="minus-button" data-name="${item.name}">-</button> <span class="quantity">${item.quantity}</span> <button class="plus-button" data-name="${item.name}">+</button> - Price: ${totalPrice.toFixed(2)}</span>
+                </div>`;
+            cartContainer.appendChild(div);
+        });
+
+        let tax = subTotal * 0.12;
+        let total = subTotal + tax;
+
+        document.querySelector('.subtotal-value').textContent = subTotal.toFixed(2);
+        document.querySelector('.tax-value').textContent = tax.toFixed(2);
+        document.querySelector('.total-value').textContent = total.toFixed(2);
+
+        document.querySelectorAll('.plus-button').forEach(button => {
+            button.addEventListener('click', function() {
+                let itemName = this.dataset.name;
+                updateQuantity(itemName, cartItems.find(item => item.name === itemName).quantity + 1);
+            });
+        });
+
+        document.querySelectorAll('.minus-button').forEach(button => {
+            button.addEventListener('click', function() {
+                let itemName = this.dataset.name;
+                let currentItem = cartItems.find(item => item.name === itemName);
+                if (currentItem.quantity > 1) {
+                    updateQuantity(itemName, currentItem.quantity - 1);
+                }
+            });
+        });
+}
+
+function updateQuantity(itemName, newQuantity) {
+    let itemToUpdate = cartItems.find(item => item.name === itemName);
+    itemToUpdate.quantity = newQuantity;
+    updateCart();
+}
+
+function clearCart() {
+    cartItems = [];
+    updateCart();
+}
+
+let addToCartButtons = document.querySelectorAll('.add-to-cart');
+addToCartButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        let itemContainer = button.closest('.product-container');
+        let itemName = itemContainer.querySelector('h2').textContent;
+        let itemPrice = itemContainer.querySelector('p').textContent;
+        let itemImage = itemContainer.querySelector('img').getAttribute('src');
+
+        let item = {
+            name: itemName,
+            price: itemPrice,
+            image: itemImage
+        };
+
+        addToCart(item);
+    });
+});
+
+let clearButton = document.querySelector('.clear-button');
+clearButton.addEventListener('click', clearCart);
+    </script>
+</body>
+</html>
